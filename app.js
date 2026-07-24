@@ -1029,11 +1029,6 @@ setTimeout(() => {
   hideResultProcessing();
   showPanel("result");
   playResultReveal();
-  const resultCode = getCurrentResultCode();
-    const fullName = state.profile?.fullName || "ไม่ระบุชื่อ";
-    const department = `${state.profile?.orgGroup || ""} - ${state.profile?.orgUnit || ""}`;
-    
-    sendDataToSheet(fullName, department, resultCode, 0);
 }, TOTAL);
 }
 
@@ -1132,33 +1127,6 @@ function buildIntroAbstractCards(){
 
     field.appendChild(el);
   }
-
-  // ---- Google Sheets Integration ----
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYPuQ1higV9djZlYyWVWuxr1mJJBKGXvbNW5nGQgsiacAvICdhf7AwV-IimkRkvexf/exec";
-
-function sendDataToSheet(fullName, department, behaviorResult, score) {
-  const payload = {
-    fullName: fullName,          // ชื่อ - นามสกุล
-    department: department,      // หน่วยงาน/สังกัด
-    behaviorResult: behaviorResult, // ผลลัพธ์พฤติกรรมองค์กร ( Result Code )
-    score: score || 0            // คะแนน
-  };
-
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  })
-  .then(() => {
-    console.log("บันทึกข้อมูลเข้า Google Sheets เรียบร้อย!");
-  })
-  .catch((error) => {
-    console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล:", error);
-  });
-}
 }
 
 function showIntroTapToStart(){
